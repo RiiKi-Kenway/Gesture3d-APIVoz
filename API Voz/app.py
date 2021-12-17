@@ -1,5 +1,6 @@
 import speech_recognition as sr
 
+# Importa as permissões para acessar arquivos do sistema operacional. "Pode ser desnecessário"
 import os
 
 # voice command system for virtual reality
@@ -19,9 +20,10 @@ def ouvir_microfone():
         # Frase para o usuario dizer algo. "Pode ser desnecessário"
         print("Aguardando comando...")
         rec.pause_threshold = 1
-        rec.energy_threshold = 50
+        rec.energy_threshold = 500
+        # rec.energy_threshold = 50
 
-        # Armazena o que foi dito em uma variavel
+        # Armazena o que foi dito na variável rec
         audio = rec.listen(mic)
 
     try:
@@ -32,21 +34,21 @@ def ouvir_microfone():
         
     # Se não reconheceu o padrao de fala, exibe a mensagem
     except Exception as e:
-        print(e)
+    #   print(e)
         print("Não entendi, pode repetir?\n")
-        return 'nada'
+    #   return 'nada'
+        return e
     return comando
 
 # Estrtura de repetição
 if __name__ == '__main__':
     while True:
+        # Caso a palavra de invocação não exista na frase, recomeça o programa.
         comando = ouvir_microfone().lower()
 
-        # print(f"Comando reconhecido 2: " + comando + "\n")
-
-        if "cris" in comando:
-            # print("entrou na invocação\n")
-
+        # Palavra de invocação
+        if "cris" == "chris" == "crys" in comando:
+            
             # # Teste para abrir programas.
             # if "navegador" in comando:
             #     os.system("start Firefox.exe")
@@ -56,11 +58,13 @@ if __name__ == '__main__':
 
             # elif "word" in comando:
             #     os.system("start WINWORD.EXE")
-
-            if "parar" in comando:
+            
+            # Palavra de exorcismo
+            if "parar" == "finalizar" == "finalze" in comando:
                 print("Programa finalizado.")
                 break
-        else:
-            # print("gerando o arquivo\n")
-            with open('saida.txt', 'w') as saida:
-                print(comando, file=saida)
+            else:
+                # Após reconhecer a invocaçaõ, verifica se o arquivo de comandos existe e sobrescreve a ultima frase pela nova,
+                # caso contráio, gera um novo arquivo.
+                with open('comandos.txt', 'w') as saida:
+                    print(comando, file=saida)
